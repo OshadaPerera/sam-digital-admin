@@ -2,12 +2,44 @@
 
 use App\Http\Controllers\Settings;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\App;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+// Route to execute storage link command
+Route::get('/run-storage-link', function () {
+    if (App::environment('production')) {
+        abort(403, 'This action is not allowed in production.');
+    }
 
-Route::view('dashboard', 'dashboard')
+    try {
+        Artisan::call('storage:link');
+        return 'Storage link has been created successfully!';
+    } catch (\Exception $e) {
+        return 'Failed to create storage link: ' . $e->getMessage();
+    }
+});
+
+
+// Route to clear various caches
+Route::get('/clear-cache', function () {
+    if (App::environment('production')) {
+        abort(403, 'This action is not allowed in production.');
+    }
+
+    try {
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('route:clear');
+        Artisan::call('view:clear');
+        Artisan::call('permission:cache-reset');
+
+        return 'All caches have been cleared successfully!';
+    } catch (\Exception $e) {
+        return 'Failed to clear caches: ' . $e->getMessage();
+    }
+});
+
+Route::view('/', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 

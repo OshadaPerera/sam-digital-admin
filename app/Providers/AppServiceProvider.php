@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('Super Admin') ? true : null;
+        });
+
+        // Register the jsonResponse macro
+        Response::macro('jsonResponse', function ($success, $message, $data = [], $statusCode = 200) {
+            return response()->json([
+                'success' => $success,
+                'message' => $message,
+                'data' => $data,
+            ], $statusCode);
+        });
     }
 }
