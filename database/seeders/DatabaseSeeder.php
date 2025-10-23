@@ -22,8 +22,10 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('*GodFirst1513*'),
             'created_at' => now(),
         ]);
-        // Create Super Admin role
+        // Create roles
         $superAdminRole = Role::create(['name' => 'Super Admin']);
+        Role::create(['name' => 'Admin']);
+        Role::create(['name' => 'User']);
         // Assign Roles to Users
         $user1->assignRole($superAdminRole);
     }

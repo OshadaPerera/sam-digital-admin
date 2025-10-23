@@ -31,8 +31,10 @@ class RegistrationController extends Controller
 
         event(new Registered(($user = User::create($validated))));
 
+        $user->assignRole('User');
+
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('dashboard'));
     }
 }
