@@ -83,12 +83,12 @@ class BusinessProfileController extends Controller
             'phone' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:255',
             'website' => 'nullable|url|max:255',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ], [
             'name.required' => 'Business name is required',
             'email.email' => 'Please enter a valid email address',
             'logo.image' => 'The logo must be an image',
-            'logo.mimes' => 'The logo must be a jpeg, png, or jpg file',
+            'logo.mimes' => 'The logo must be a jpeg, png, jpg, or webp file',
             'logo.max' => 'The logo must not be larger than 2MB',
         ]);
 

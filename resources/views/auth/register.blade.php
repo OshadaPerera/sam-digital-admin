@@ -2,6 +2,11 @@
     <div
         class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div class="p-6">
+            @if($businessProfile && $businessProfile->logo)
+                <div class="flex justify-center mb-6">
+                    <img src="{{ Storage::url($businessProfile->logo) }}" alt="Logo" class="h-16 w-auto">
+                </div>
+            @endif
             <div class="mb-3">
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ __('Register an account') }}</h1>
             </div>
