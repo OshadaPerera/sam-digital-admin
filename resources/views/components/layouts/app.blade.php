@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {{-- FontAwesome CDN --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    @if($businessProfile && $businessProfile->logo)
+    @if ($businessProfile && $businessProfile->logo)
         <link rel="icon" type="image/png" href="{{ Storage::url($businessProfile->logo) }}">
     @endif
     <title>{{ $businessProfile ? $businessProfile->name : config('app.name') }}</title>
@@ -25,6 +25,10 @@
             display: none;
         }
     </style>
+    {{-- Simple-DataTables CDN --}}
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    
     <script>
         window.setAppearance = function(appearance) {
             let setDark = () => document.documentElement.classList.add('dark')
