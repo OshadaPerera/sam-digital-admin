@@ -7,6 +7,11 @@
                             <!-- Dashboard -->
                             <x-layouts.sidebar-link href="{{ route('dashboard') }}" icon='fas-house' :active="request()->routeIs('dashboard*')">Dashboard</x-layouts.sidebar-link>
 
+                            {{-- Review Management --}}
+                            @can('view reviews')
+                                <x-layouts.sidebar-link href="{{ route('reviews.index') }}" icon='fas-star' :active="request()->routeIs('reviews*')">Reviews</x-layouts.sidebar-link>
+                            @endcan
+
                             {{-- Business Profile --}}
                             @can('view business profile')
                                 <x-layouts.sidebar-link href="{{ route('business-profile.index') }}" icon='fas-building' :active="request()->routeIs('business.profile')">Business Profile</x-layouts.sidebar-link>

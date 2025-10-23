@@ -28,5 +28,9 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'User']);
         // Assign Roles to Users
         $user1->assignRole($superAdminRole);
+
+        $this->call([
+            ReviewSeeder::class,
+        ]);
     }
 }

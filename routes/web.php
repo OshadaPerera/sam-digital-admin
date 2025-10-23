@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BusinessProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Settings\AppearanceController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
@@ -58,15 +59,30 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // User Management Routes
-    Route::resource('users', UserController::class);
+    Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('can:view users');
+        Route::get('/create', 'create')->name('create')->middleware('can:create users');
+        Route::post('/', 'store')->name('store')->middleware('can:create users');
+        Route::get('/{user}/edit', 'edit')->name('edit')->middleware('can:edit users');
+        Route::put('/{user}', 'update')->name('update')->middleware('can:edit users');
+        Route::delete('/{user}', 'destroy')->name('destroy')->middleware('can:delete users');
+    });
 
     // Business Profile Routes
-    Route::prefix('business-profile')->name('business-profile.')->group(function () {
-        Route::get('/', [BusinessProfileController::class, 'index'])->name('index')->middleware('can:view business profile');
-        Route::post('/', [BusinessProfileController::class, 'store'])->name('store')->middleware('can:create business profile');
-        Route::get('/{id}', [BusinessProfileController::class, 'show'])->name('show')->middleware('can:view business profile');
-        Route::put('/{id}', [BusinessProfileController::class, 'update'])->name('update')->middleware('can:update business profile');
-        Route::delete('/{id}', [BusinessProfileController::class, 'destroy'])->name('destroy')->middleware('can:delete business profile');
+    Route::prefix('business-profile')->name('business-profile.')->controller(BusinessProfileController::class)->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('can:view business profile');
+        Route::post('/', 'store')->name('store')->middleware('can:create business profile');
+        Route::get('/{id}', 'show')->name('show')->middleware('can:view business profile');
+        Route::put('/{id}', 'update')->name('update')->middleware('can:update business profile');
+        Route::delete('/{id}', 'destroy')->name('destroy')->middleware('can:delete business profile');
+    });
+
+    // Review Management Routes
+    Route::prefix('reviews')->name('reviews.')->controller(ReviewController::class)->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('can:view reviews');
+        Route::delete('/{review}', 'destroy')->name('destroy')->middleware('can:delete review');
+        Route::post('/{review}/activate', 'activate')->name('activate')->middleware('can:activate review');
+        Route::post('/{review}/deactivate', 'deactivate')->name('deactivate')->middleware('can:deactivate review');
     });
 
 });
