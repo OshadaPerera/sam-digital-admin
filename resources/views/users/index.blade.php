@@ -43,12 +43,12 @@
                                 <div class="flex gap-4">
                                     @can('edit user')
                                         {{-- Edit user modal --}}
-                                        <div x-data="editUserModal('{{ $user }}')">
+                                        <div x-data="editUserModal">
                                             <div class="flex items-center justify-end">
                                                 <button type="button" class="text-success" x-tooltip="Edit User" @click="toggle"><i class="fa-solid fa-pencil fa-lg"></i></button>
                                             </div>
                                             <template x-if="open">
-                                                @include('users.edit')
+                                                @include('users.edit', ['user' => $user, 'roles' => $roles])
                                             </template>
                                         </div>
                                     @endcan

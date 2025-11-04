@@ -28,7 +28,11 @@
     {{-- Simple-DataTables CDN --}}
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
-    
+
+    {{-- Tippy.js CDN for Tooltips --}}
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
     <script>
         window.setAppearance = function(appearance) {
             let setDark = () => document.documentElement.classList.add('dark')
@@ -234,8 +238,10 @@
                     showCloseButton: true,
                     background: bgColor,
                     color: textColor,
+                    width: 'auto',
                     customClass: {
-                        popup: 'rounded-xl shadow-lg text-sm flex items-center gap-2 px-3 py-2 backdrop-blur-sm'
+                        popup: 'swal2-toast-custom',
+                        container: 'swal2-top-end-custom'
                     },
                     didOpen: (toastEl) => {
                         toastEl.addEventListener('mouseenter', Swal.stopTimer);

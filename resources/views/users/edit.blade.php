@@ -5,7 +5,7 @@
                 <div class="flex bg-[#fbfbfb] dark:bg-[#121c2c] items-center justify-between px-5 py-3">
                     <div class="font-bold text-lg">Edit User</div>
                     <button type="button" class="text-white-dark hover:text-dark" @click="toggle">
-                         <i class="fas fa-times text-lg"></i>
+                        <i class="fas fa-times text-lg"></i>
                     </button>
                 </div>
                 <div class="p-5">
@@ -24,7 +24,7 @@
                         </div>
                         <div>
                             <label for="role">User Role<span class="text-danger">*</span></label>
-                            
+
                             @if ($user->id === auth()->user()->id)
                                 <select id="role" name="role" class="form-input" disabled>
                                     <option value="{{ optional($user->roles->first())->name }}">{{ optional($user->roles->first())->name }}</option>
@@ -41,7 +41,7 @@
                                 </select>
                             @endif
                         </div>
-                        
+
                         <div class="flex items-center gap-2">
                             <label id="active_status" class="ml-2">
                                 Active

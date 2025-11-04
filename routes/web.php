@@ -81,8 +81,8 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('reviews')->name('reviews.')->controller(ReviewController::class)->group(function () {
         Route::get('/', 'index')->name('index')->middleware('can:view reviews');
         Route::delete('/{review}', 'destroy')->name('destroy')->middleware('can:delete review');
-        Route::post('/{review}/activate', 'activate')->name('activate')->middleware('can:activate review');
-        Route::post('/{review}/deactivate', 'deactivate')->name('deactivate')->middleware('can:deactivate review');
+        Route::patch('/{review}/activate', 'activate')->name('activate')->middleware('can:activate review');
+        Route::patch('/{review}/deactivate', 'deactivate')->name('deactivate')->middleware('can:deactivate review');
     });
 
 });
