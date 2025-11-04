@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\BusinessProfileController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Settings\AppearanceController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WhatWeDoController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -83,6 +85,36 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{review}', 'destroy')->name('destroy')->middleware('can:delete review');
         Route::patch('/{review}/activate', 'activate')->name('activate')->middleware('can:activate review');
         Route::patch('/{review}/deactivate', 'deactivate')->name('deactivate')->middleware('can:deactivate review');
+    });
+
+    // What We Do Management Routes
+    Route::prefix('what-we-do')->name('what-we-do.')->controller(WhatWeDoController::class)->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('can:view what we do');
+        Route::get('/create', 'create')->name('create')->middleware('can:create what we do');
+        Route::post('/', 'store')->name('store')->middleware('can:create what we do');
+        Route::get('/{whatWeDo}', 'show')->name('show')->middleware('can:view what we do');
+        Route::get('/{whatWeDo}/edit', 'edit')->name('edit')->middleware('can:edit what we do');
+        Route::put('/{whatWeDo}', 'update')->name('update')->middleware('can:edit what we do');
+        Route::delete('/{whatWeDo}', 'destroy')->name('destroy')->middleware('can:delete what we do');
+        Route::patch('/{whatWeDo}/activate', 'activate')->name('activate')->middleware('can:activate what we do');
+        Route::patch('/{whatWeDo}/deactivate', 'deactivate')->name('deactivate')->middleware('can:deactivate what we do');
+        Route::post('/{whatWeDo}/images', 'addImages')->name('add-images')->middleware('can:add what we do images');
+        Route::delete('/{whatWeDo}/images/{image}', 'deleteImage')->name('delete-image')->middleware('can:delete what we do images');
+    });
+
+    // Gallery Management Routes
+    Route::prefix('gallery')->name('gallery.')->controller(GalleryController::class)->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('can:view gallery');
+        Route::get('/create', 'create')->name('create')->middleware('can:create gallery');
+        Route::post('/', 'store')->name('store')->middleware('can:create gallery');
+        Route::get('/{gallery}', 'show')->name('show')->middleware('can:view gallery');
+        Route::get('/{gallery}/edit', 'edit')->name('edit')->middleware('can:edit gallery');
+        Route::put('/{gallery}', 'update')->name('update')->middleware('can:edit gallery');
+        Route::delete('/{gallery}', 'destroy')->name('destroy')->middleware('can:delete gallery');
+        Route::patch('/{gallery}/activate', 'activate')->name('activate')->middleware('can:activate gallery');
+        Route::patch('/{gallery}/deactivate', 'deactivate')->name('deactivate')->middleware('can:deactivate gallery');
+        Route::post('/{gallery}/images', 'addImages')->name('add-images')->middleware('can:add gallery images');
+        Route::delete('/{gallery}/images/{image}', 'deleteImage')->name('delete-image')->middleware('can:delete gallery images');
     });
 
 });

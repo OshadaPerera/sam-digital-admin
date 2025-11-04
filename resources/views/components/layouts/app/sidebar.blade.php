@@ -12,6 +12,16 @@
                                 <x-layouts.sidebar-link href="{{ route('reviews.index') }}" icon='fas-star' :active="request()->routeIs('reviews*')">Reviews</x-layouts.sidebar-link>
                             @endcan
 
+                            {{-- What We Do --}}
+                            @can('view what we do')
+                                <x-layouts.sidebar-link href="{{ route('what-we-do.index') }}" icon='fas-briefcase' :active="request()->routeIs('what-we-do*')">What We Do</x-layouts.sidebar-link>
+                            @endcan
+
+                            {{-- Gallery --}}
+                            @can('view gallery')
+                                <x-layouts.sidebar-link href="{{ route('gallery.index') }}" icon='fas-images' :active="request()->routeIs('gallery*')">Gallery</x-layouts.sidebar-link>
+                            @endcan
+
                             {{-- Business Profile --}}
                             @can('view business profile')
                                 <x-layouts.sidebar-link href="{{ route('business-profile.index') }}" icon='fas-building' :active="request()->routeIs('business.profile')">Business Profile</x-layouts.sidebar-link>
