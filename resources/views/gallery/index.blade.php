@@ -46,21 +46,21 @@
                     </p>
                 </div>
             @else
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     @foreach ($albums as $album)
                         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden transition-all duration-200 hover:shadow-lg border border-gray-200 dark:border-gray-700">
                             {{-- Cover Image --}}
-                            <div class="relative aspect-video bg-gray-100 dark:bg-gray-700">
+                            <div class="relative w-full aspect-video bg-gray-100 dark:bg-gray-700" style="height: 12rem;">
                                 @if ($album->cover_image)
-                                    <img src="{{ asset('storage/' . $album->cover_image) }}" alt="{{ $album->title }}" class="w-full h-full object-cover">
+                                    <img src="{{ asset('storage/' . $album->cover_image) }}" alt="{{ $album->title }}" class="w-full h-full object-contain" style="height: 12rem;">
                                 @else
-                                    <div class="w-full h-full flex items-center justify-center">
+                                    <div class="w-full h-full flex items-center justify-center" style="height: 12rem;">
                                         <i class="fa-solid fa-image text-gray-300 dark:text-gray-600 text-5xl"></i>
                                     </div>
                                 @endif
 
                                 {{-- Status Badge --}}
-                                <div class="absolute top-3 right-3">
+                                <div class="absolute top-2 right-2 z-10">
                                     @if ($album->status === 'active')
                                         <span class="inline-flex items-center px-2.5 py-1 text-xs rounded-full bg-success text-white font-medium shadow-sm">
                                             <i class="fa-solid fa-circle text-[6px] mr-1.5"></i>
@@ -75,8 +75,8 @@
                                 </div>
 
                                 {{-- Image Count Badge --}}
-                                <div class="absolute bottom-3 left-3">
-                                    <span class="inline-flex items-center px-3 py-1.5 text-xs rounded-full bg-black/70 text-white font-medium">
+                                <div class="absolute bottom-2 left-2 z-10">
+                                    <span class="inline-flex items-center px-3 py-1.5 text-xs rounded-full bg-black/70 text-white font-medium backdrop-blur-sm">
                                         <i class="fa-solid fa-images text-xs mr-1.5"></i>
                                         {{ $album->images->count() }} {{ Str::plural('image', $album->images->count()) }}
                                     </span>
