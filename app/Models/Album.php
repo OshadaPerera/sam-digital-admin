@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Album extends Model
 {
     protected $fillable = [
+        'id',
         'title',
         'description',
         'cover_image',

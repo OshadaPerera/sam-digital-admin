@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AlbumImage extends Model
 {
     protected $fillable = [
+        'id',
         'album_id',
         'image_path',
         'order',
