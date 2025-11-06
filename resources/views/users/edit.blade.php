@@ -14,7 +14,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="username">Username<span class="text-danger">*</span></label>
-                            <input type="text" name="username" class="form-input" value="{{ old('username', $user->username) }}">
+                            <input type="text" name="name" class="form-input" value="{{ old('name', $user->name) }}">
                             <span class="text-danger error-message username_err"></span>
                         </div>
                         <div class="form-group">

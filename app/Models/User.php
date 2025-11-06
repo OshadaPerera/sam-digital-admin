@@ -73,4 +73,10 @@ class User extends Authenticatable
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }
+
+    public function hasRelatedRecords(): bool
+    {
+        // TODO: Implement logic to check for related records in other models
+        return false;
+    }
 }

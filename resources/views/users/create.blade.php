@@ -13,7 +13,7 @@
                         @csrf
                         <div>
                             <label for="username">Username<span class="text-danger">*</span></label>
-                            <input id="username" type="text" name="username" placeholder="Enter username" class="form-input" />
+                            <input id="username" type="text" name="name" placeholder="Enter username" class="form-input" />
                             <span class="text-danger error-message username_err"></span>
                         </div>
                         <div>
