@@ -13,7 +13,7 @@ class ReviewController extends Controller
     public function index()
     {
         try {
-            $reviews = Review::select('id', 'name', 'message')->where('status', 'active')->get();
+            $reviews = Review::select('id', 'name', 'message', 'rating')->where('status', 'active')->get();
 
             return Response::jsonResponse(true, 'Reviews retrieved successfully', [
                 'reviews' => $reviews,
@@ -33,11 +33,13 @@ class ReviewController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'message' => 'required|string',
+                'rating' => 'required|integer|min:1|max:5',
             ]);
 
             $review = Review::create([
                 'name' => $request->name,
                 'message' => $request->message,
+                'rating' => $request->rating,
                 'status' => 'active',
             ]);
 

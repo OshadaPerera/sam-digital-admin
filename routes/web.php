@@ -7,6 +7,7 @@ use App\Http\Controllers\Settings\AppearanceController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VideoController;
 use App\Http\Controllers\WhatWeDoController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
@@ -115,6 +116,18 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/{gallery}/deactivate', 'deactivate')->name('deactivate')->middleware('can:deactivate gallery');
         Route::post('/{gallery}/images', 'addImages')->name('add-images')->middleware('can:add gallery images');
         Route::delete('/{gallery}/images/{image}', 'deleteImage')->name('delete-image')->middleware('can:delete gallery images');
+    });
+
+    // Video Management Routes
+    Route::prefix('videos')->name('videos.')->controller(VideoController::class)->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('can:view videos');
+        Route::get('/create', 'create')->name('create')->middleware('can:create videos');
+        Route::post('/', 'store')->name('store')->middleware('can:create videos');
+        Route::get('/{video}/edit', 'edit')->name('edit')->middleware('can:edit videos');
+        Route::put('/{video}', 'update')->name('update')->middleware('can:edit videos');
+        Route::delete('/{video}', 'destroy')->name('destroy')->middleware('can:delete videos');
+        Route::patch('/{video}/activate', 'activate')->name('activate')->middleware('can:activate videos');
+        Route::patch('/{video}/deactivate', 'deactivate')->name('deactivate')->middleware('can:deactivate videos');
     });
 
 });

@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('message');
+            $table->string('title')->nullable();
+            $table->string('url')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->decimal('rating', 10, 2)->default(0);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('videos');
     }
 };
