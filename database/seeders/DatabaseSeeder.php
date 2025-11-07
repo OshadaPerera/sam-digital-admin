@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         $user1->assignRole($superAdminRole);
 
         $this->call([
+            PermissionSeeder::class,
             ReviewSeeder::class,
             AlbumSeeder::class,
         ]);
