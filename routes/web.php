@@ -3,6 +3,7 @@
 use App\Http\Controllers\BusinessProfileController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Settings\AppearanceController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
@@ -69,6 +70,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{user}/edit', 'edit')->name('edit')->middleware('can:edit users');
         Route::put('/{user}', 'update')->name('update')->middleware('can:edit users');
         Route::delete('/{user}', 'destroy')->name('destroy')->middleware('can:delete users');
+    });
+
+    // Role Management Routes
+    Route::prefix('roles')->name('roles.')->controller(RoleController::class)->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('can:view roles');
+        Route::get('/create', 'create')->name('create')->middleware('can:create role');
+        Route::post('/', 'store')->name('store')->middleware('can:create role');
+        Route::get('/{role}/edit', 'edit')->name('edit')->middleware('can:edit role');
+        Route::put('/{role}', 'update')->name('update')->middleware('can:edit role');
+        Route::delete('/{role}', 'destroy')->name('destroy')->middleware('can:delete role');
     });
 
     // Business Profile Routes

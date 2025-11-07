@@ -8,7 +8,7 @@
 
         <div class="panel mt-6">
             <h5 class="mb-5 text-lg font-semibold dark:text-white-light md:absolute md:top-[25px] md:mb-0">User List</h5>
-            @can('create user')
+            @can('create users')
                 {{-- Create user modal --}}
                 <div x-data="createUserModal" class="mb-5">
                     <div class="flex items-center justify-end">
@@ -41,7 +41,7 @@
                                 </span></td>
                             <td>
                                 <div class="flex gap-4">
-                                    @can('edit user')
+                                    @can('edit users')
                                         {{-- Edit user modal --}}
                                         <div x-data="editUserModal">
                                             <div class="flex items-center justify-end">
@@ -52,7 +52,7 @@
                                             </template>
                                         </div>
                                     @endcan
-                                    @can('delete user')
+                                    @can('delete users')
                                         <div x-data="deleteUserHandler">
                                             <button type="button" class="text-danger" x-tooltip="Delete User" @click="deleteUser('{{ route('users.destroy', ['user' => $user->id]) }}')">
                                                 <i class="fa-solid fa-trash-can fa-lg"></i>

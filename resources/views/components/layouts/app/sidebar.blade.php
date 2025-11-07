@@ -37,6 +37,11 @@
                                 <x-layouts.sidebar-link href="{{ route('users.index') }}" icon='fas-users' :active="request()->routeIs('users*')">User Management</x-layouts.sidebar-link>
                             @endcan
 
+                            {{-- Role Management --}}
+                            @can('view roles')
+                                <x-layouts.sidebar-link href="{{ route('roles.index') }}" icon='fas-user-shield' :active="request()->routeIs('roles*')">Role Management</x-layouts.sidebar-link>
+                            @endcan
+
                             <!-- Example two level -->
                             {{-- <x-layouts.sidebar-two-level-link-parent title="Example two level" icon="fas-house" :active="request()->routeIs('two-level*')">
                                 <x-layouts.sidebar-two-level-link href="#" icon='fas-house' :active="request()->routeIs('two-level*')">Child</x-layouts.sidebar-two-level-link>
