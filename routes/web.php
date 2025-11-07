@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BusinessProfileController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
@@ -48,7 +49,7 @@ Route::get('/clear-cache', function () {
     }
 });
 
-Route::view('/', 'dashboard')
+Route::get('/', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
