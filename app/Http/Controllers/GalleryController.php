@@ -6,6 +6,7 @@ use App\Models\Album;
 use App\Models\AlbumImage;
 use App\Services\AlbumService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
@@ -45,11 +46,15 @@ class GalleryController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB max
             'status' => 'required|in:active,inactive',
         ]);
 
         if ($validator->fails()) {
+            Log::warning('Gallery album validation failed', [
+                'errors' => $validator->errors()->toArray(),
+            ]);
+
             return Response::jsonResponse(false, ucwords($validator->errors()->first()), ['errors' => $validator->errors()], 422);
         }
 
@@ -61,9 +66,15 @@ class GalleryController extends Controller
             );
 
             return Response::jsonResponse(true, 'Album created successfully', [
-                'redirect' => route('gallery.show', $album)
+                'redirect' => route('gallery.show', $album),
             ]);
         } catch (\Exception $e) {
+            Log::error('Failed to create gallery album', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'request_data' => $request->except('cover_image'),
+            ]);
+
             return Response::jsonResponse(false, ucwords($e->getMessage()), [], 500);
         }
     }
@@ -74,6 +85,7 @@ class GalleryController extends Controller
     public function show(Album $gallery)
     {
         $album = $this->albumService->getAlbumWithImages($gallery->id);
+
         return view('gallery.show', compact('album'));
     }
 
@@ -93,11 +105,16 @@ class GalleryController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB max
             'status' => 'required|in:active,inactive',
         ]);
 
         if ($validator->fails()) {
+            Log::warning('Gallery album update validation failed', [
+                'album_id' => $gallery->id,
+                'errors' => $validator->errors()->toArray(),
+            ]);
+
             return Response::jsonResponse(false, ucwords($validator->errors()->first()), ['errors' => $validator->errors()], 422);
         }
 
@@ -109,9 +126,16 @@ class GalleryController extends Controller
             );
 
             return Response::jsonResponse(true, 'Album updated successfully', [
-                'redirect' => route('gallery.show', $gallery)
+                'redirect' => route('gallery.show', $gallery),
             ]);
         } catch (\Exception $e) {
+            Log::error('Failed to update gallery album', [
+                'album_id' => $gallery->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'request_data' => $request->except('cover_image'),
+            ]);
+
             return Response::jsonResponse(false, ucwords($e->getMessage()), [], 500);
         }
     }
@@ -123,6 +147,7 @@ class GalleryController extends Controller
     {
         try {
             $this->albumService->deleteAlbum($gallery);
+
             return Response::jsonResponse(true, 'Album deleted successfully', ['redirect' => route('gallery.index')]);
         } catch (\Exception $e) {
             return Response::jsonResponse(false, ucwords($e->getMessage()), [], 500);
@@ -136,6 +161,7 @@ class GalleryController extends Controller
     {
         try {
             $this->albumService->updateStatus($gallery, 'active');
+
             return Response::jsonResponse(true, 'Album activated successfully', ['redirect' => route('gallery.index')]);
         } catch (\Exception $e) {
             return Response::jsonResponse(false, ucwords($e->getMessage()), [], 500);
@@ -149,6 +175,7 @@ class GalleryController extends Controller
     {
         try {
             $this->albumService->updateStatus($gallery, 'inactive');
+
             return Response::jsonResponse(true, 'Album deactivated successfully', ['redirect' => route('gallery.index')]);
         } catch (\Exception $e) {
             return Response::jsonResponse(false, ucwords($e->getMessage()), [], 500);
@@ -162,17 +189,29 @@ class GalleryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'images' => 'required|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB max per image
         ]);
 
         if ($validator->fails()) {
+            Log::warning('Gallery add images validation failed', [
+                'album_id' => $gallery->id,
+                'errors' => $validator->errors()->toArray(),
+            ]);
+
             return Response::jsonResponse(false, ucwords($validator->errors()->first()), ['errors' => $validator->errors()], 422);
         }
 
         try {
             $this->albumService->addImagesToAlbum($gallery, $request->file('images'));
+
             return Response::jsonResponse(true, 'Images added successfully', ['redirect' => route('gallery.show', $gallery)]);
         } catch (\Exception $e) {
+            Log::error('Failed to add images to gallery album', [
+                'album_id' => $gallery->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             return Response::jsonResponse(false, ucwords($e->getMessage()), [], 500);
         }
     }
@@ -188,6 +227,7 @@ class GalleryController extends Controller
             }
 
             $this->albumService->deleteImage($image);
+
             return Response::jsonResponse(true, 'Image deleted successfully', ['redirect' => route('gallery.show', $gallery)]);
         } catch (\Exception $e) {
             return Response::jsonResponse(false, ucwords($e->getMessage()), [], 500);
