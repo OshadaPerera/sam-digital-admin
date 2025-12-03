@@ -8,6 +8,8 @@ return [
     'allowed_origins' => [
         'https://samdigitalphotography.com',
         'http://samdigitalphotography.com',
+        'https://admin.samdigitalphotography.com',
+        'http://admin.samdigitalphotography.com',
     ],
     
     'allowed_origins_patterns' => [],
