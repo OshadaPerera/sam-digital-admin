@@ -24,7 +24,7 @@
     .bg-sidebar {
         background-color: hsl(var(--sidebar-background));
     }
-    
+
     .bg-sidebar-accent {
         background-color: hsl(var(--sidebar-accent));
     }
@@ -39,6 +39,239 @@
 
     .hover\:text-sidebar-accent-foreground:hover {
         color: hsl(var(--sidebar-accent-foreground));
+    }
+
+    /* Panel */
+    .panel {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    :is(.dark .panel) {
+        background-color: rgb(31 41 55);
+        border-color: rgb(55 65 81);
+    }
+
+    /* Form Inputs */
+    .form-input,
+    .form-select,
+    .form-textarea {
+        width: 100%;
+        border-radius: 0.375rem;
+        border: 1px solid rgb(209 213 219);
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        background-color: white;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+        outline: none;
+        border-color: rgb(59 130 246);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    :is(.dark .form-input),
+    :is(.dark .form-select),
+    :is(.dark .form-textarea) {
+        background-color: rgb(31 41 55);
+        border-color: rgb(75 85 99);
+        color: rgb(243 244 246);
+    }
+
+    :is(.dark .form-input):focus,
+    :is(.dark .form-select):focus,
+    :is(.dark .form-textarea):focus {
+        border-color: rgb(59 130 246);
+    }
+
+    /* Buttons */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.25rem;
+        border-radius: 0.375rem;
+        transition: all 0.15s ease-in-out;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .btn-primary {
+        background-color: rgb(59 130 246);
+        color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+        background-color: rgb(37 99 235);
+    }
+
+    .btn-success {
+        background-color: rgb(34 197 94);
+        color: white;
+    }
+
+    .btn-success:hover:not(:disabled) {
+        background-color: rgb(22 163 74);
+    }
+
+    .btn-danger {
+        background-color: rgb(239 68 68);
+        color: white;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+        background-color: rgb(220 38 38);
+    }
+
+    .btn-warning {
+        background-color: rgb(251 146 60);
+        color: white;
+    }
+
+    .btn-warning:hover:not(:disabled) {
+        background-color: rgb(249 115 22);
+    }
+
+    .btn-outline-primary {
+        background-color: transparent;
+        border-color: rgb(59 130 246);
+        color: rgb(59 130 246);
+    }
+
+    .btn-outline-primary:hover:not(:disabled) {
+        background-color: rgb(59 130 246);
+        color: white;
+    }
+
+    .btn-outline-danger {
+        background-color: transparent;
+        border-color: rgb(239 68 68);
+        color: rgb(239 68 68);
+    }
+
+    .btn-outline-danger:hover:not(:disabled) {
+        background-color: rgb(239 68 68);
+        color: white;
+    }
+
+    /* Badges */
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1rem;
+        border-radius: 9999px;
+    }
+
+    .bg-success {
+        background-color: rgb(34 197 94);
+    }
+
+    .bg-danger {
+        background-color: rgb(239 68 68);
+    }
+
+    /* Text Colors */
+    .text-primary {
+        color: rgb(59 130 246);
+    }
+
+    .text-success {
+        color: rgb(34 197 94);
+    }
+
+    .text-danger {
+        color: rgb(239 68 68);
+    }
+
+    .text-warning {
+        color: rgb(251 146 60);
+    }
+
+    :is(.dark .text-primary) {
+        color: rgb(96 165 250);
+    }
+
+    :is(.dark .text-success) {
+        color: rgb(74 222 128);
+    }
+
+    :is(.dark .text-danger) {
+        color: rgb(248 113 113);
+    }
+
+    :is(.dark .text-warning) {
+        color: rgb(253 186 116);
+    }
+
+    .dark\:text-white-light:where(.dark, .dark *) {
+        color: rgb(229 231 235);
+    }
+
+    /* Background Colors with opacity */
+    .bg-primary\/10 {
+        background-color: rgba(59, 130, 246, 0.1);
+    }
+
+    .bg-success\/10 {
+        background-color: rgba(34, 197, 94, 0.1);
+    }
+
+    .bg-danger\/10 {
+        background-color: rgba(239, 68, 68, 0.1);
+    }
+
+    .bg-warning\/10 {
+        background-color: rgba(251, 146, 60, 0.1);
+    }
+
+    .hover\:bg-success\/10:hover {
+        background-color: rgba(34, 197, 94, 0.1);
+    }
+
+    .hover\:bg-danger\/10:hover {
+        background-color: rgba(239, 68, 68, 0.1);
+    }
+
+    .hover\:bg-warning\/10:hover {
+        background-color: rgba(251, 146, 60, 0.1);
+    }
+
+    /* Tables */
+    .table-hover tbody tr {
+        transition: background-color 0.15s ease-in-out;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgb(249 250 251);
+    }
+
+    :is(.dark .table-hover) tbody tr:hover {
+        background-color: rgb(31 41 55);
+    }
+
+    /* Line clamp */
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 }
 
@@ -127,4 +360,33 @@
 
 .dark .custom-file-input:active::before {
     background: #4b5563;
+}
+
+/* Toast Custom Styling */
+.swal2-toast-custom {
+    border-radius: 0.75rem !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    font-size: 1rem !important;
+    padding: 0.75rem 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    min-height: auto !important;
+    height: auto !important;
+}
+
+.swal2-toast-custom .swal2-html-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+.swal2-toast-custom .swal2-timer-progress-bar {
+    height: 3px !important;
+}
+
+.swal2-top-end-custom {
+    z-index: 9999 !important;
 }

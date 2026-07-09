@@ -1,8 +1,12 @@
 <x-layouts.auth :title="__('Login')">
     <!-- Login Card -->
-    <div
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div class="p-6">
+            @if ($businessProfile && $businessProfile->logo)
+                <div class="flex justify-center mb-6">
+                    <img src="{{ Storage::url($businessProfile->logo) }}" alt="Logo" class="h-16 w-auto">
+                </div>
+            @endif
             <div class="mb-3">
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ __('Log in to your account') }}</h1>
             </div>
@@ -21,8 +25,7 @@
                     <!-- Remember me & password reset -->
                     <div class="flex items-center justify-between mt-2">
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}"
-                                class="text-xs text-blue-600 dark:text-blue-400 hover:underline">{{ __('Forgot password?') }}</a>
+                            <a href="{{ route('password.request') }}" class="text-xs text-blue-600 dark:text-blue-400 hover:underline">{{ __('Forgot password?') }}</a>
                         @endif
                         <x-forms.checkbox label="Remember me" name="remember" />
                     </div>
@@ -34,13 +37,12 @@
 
             @if (Route::has('register'))
                 <!-- Register Link -->
-                <div class="text-center mt-6">
+                {{-- <div class="text-center mt-6">
                     <p class="text-sm text-gray-600 dark:text-gray-400">
                         {{ __('Don\'t have an account?') }}
-                        <a href="{{ route('register') }}"
-                            class="text-blue-600 dark:text-blue-400 hover:underline font-medium">{{ __('Sign up') }}</a>
+                        <a href="{{ route('register') }}" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">{{ __('Sign up') }}</a>
                     </p>
-                </div>
+                </div> --}}
             @endif
         </div>
     </div>
