@@ -50,6 +50,23 @@
                                 <x-forms.textarea label="Address" name="address" rows="3">
                                     {{ old('address', $businessProfile?->address) }}
                                 </x-forms.textarea>
+
+                                <!-- Social Media Links -->
+                                <div class="md:col-span-2 mt-4">
+                                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">{{ __('Social Media Links') }}</h3>
+                                </div>
+
+                                <!-- Facebook URL -->
+                                <x-forms.input label="Facebook URL" name="facebook_url" type="url" value="{{ old('facebook_url', $businessProfile?->facebook_url) }}" />
+
+                                <!-- YouTube URL -->
+                                <x-forms.input label="YouTube URL" name="youtube_url" type="url" value="{{ old('youtube_url', $businessProfile?->youtube_url) }}" />
+
+                                <!-- Instagram URL -->
+                                <x-forms.input label="Instagram URL" name="instagram_url" type="url" value="{{ old('instagram_url', $businessProfile?->instagram_url) }}" />
+
+                                <!-- WhatsApp Number -->
+                                <x-forms.input label="WhatsApp Number" name="whatsapp_number" type="text" value="{{ old('whatsapp_number', $businessProfile?->whatsapp_number) }}" placeholder="+44 7414 549888" />
                             </div>
 
                             <!-- Submit Button -->

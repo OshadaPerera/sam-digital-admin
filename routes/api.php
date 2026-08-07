@@ -8,4 +8,5 @@ Route::withoutMiddleware(['auth:sanctum'])->group(function () {
     Route::apiResource('gallery', App\Http\Controllers\API\GalleryController::class)->only(['index', 'show'])->names('api.gallery');
     Route::apiResource('reviews', App\Http\Controllers\API\ReviewController::class)->only(['index', 'store'])->names('api.reviews');
     Route::apiResource('videos', App\Http\Controllers\API\VideoController::class)->only(['index', 'show'])->names('api.videos');
+    Route::get('business-profile', [App\Http\Controllers\API\BusinessProfileController::class, 'index'])->name('api.business-profile');
 });
