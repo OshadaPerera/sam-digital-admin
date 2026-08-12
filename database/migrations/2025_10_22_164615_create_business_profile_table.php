@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('website')->nullable();
             $table->string('logo')->nullable();
+            $table->string('facebook_url')->nullable();
+            $table->string('youtube_url')->nullable();
+            $table->string('instagram_url')->nullable();
+            $table->string('whatsapp_number')->nullable();
         });
     }
 

@@ -27,12 +27,19 @@ class BusinessProfileController extends Controller
             'email' => 'nullable|email|max:255',
             'website' => 'nullable|url|max:255',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'facebook_url' => 'nullable|url|max:255',
+            'youtube_url' => 'nullable|url|max:255',
+            'instagram_url' => 'nullable|url|max:255',
+            'whatsapp_number' => 'nullable|string|max:20',
         ], [
             'name.required' => 'Business name is required',
             'email.email' => 'Please enter a valid email address',
             'logo.image' => 'The logo must be an image',
             'logo.mimes' => 'The logo must be a jpeg, png, or jpg file',
             'logo.max' => 'The logo must not be larger than 2MB',
+            'facebook_url.url' => 'Please enter a valid Facebook URL',
+            'youtube_url.url' => 'Please enter a valid YouTube URL',
+            'instagram_url.url' => 'Please enter a valid Instagram URL',
         ]);
 
         if ($validator->fails()) {
@@ -84,12 +91,19 @@ class BusinessProfileController extends Controller
             'email' => 'nullable|email|max:255',
             'website' => 'nullable|url|max:255',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'facebook_url' => 'nullable|url|max:255',
+            'youtube_url' => 'nullable|url|max:255',
+            'instagram_url' => 'nullable|url|max:255',
+            'whatsapp_number' => 'nullable|string|max:20',
         ], [
             'name.required' => 'Business name is required',
             'email.email' => 'Please enter a valid email address',
             'logo.image' => 'The logo must be an image',
             'logo.mimes' => 'The logo must be a jpeg, png, jpg, or webp file',
             'logo.max' => 'The logo must not be larger than 2MB',
+            'facebook_url.url' => 'Please enter a valid Facebook URL',
+            'youtube_url.url' => 'Please enter a valid YouTube URL',
+            'instagram_url.url' => 'Please enter a valid Instagram URL',
         ]);
 
         if ($validator->fails()) {

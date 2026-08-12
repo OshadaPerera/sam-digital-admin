@@ -183,21 +183,18 @@
                         const errorMessages = Object.values(data.errors).flat();
                         errorMessages.forEach(message => {
                             toast('danger', message);
-                            overlay.style.display = 'none'; // Hide overlay
                         });
                     } else {
                         toast('danger', data.message || 'An error occurred');
-                        overlay.style.display = 'none'; // Hide overlay
                     }
                 }
 
                 return data;
             } catch (error) {
                 toast('danger', 'An unexpected error occurred. Please try again.');
-                overlay.style.display = 'none'; // Hide overlay
                 throw error;
             } finally {
-
+                overlay.style.display = 'none'; // Ensure overlay is always hidden
             }
         }
         document.addEventListener("DOMContentLoaded", function() {
@@ -215,18 +212,30 @@
                 const dark = isDarkMode();
 
                 const isSuccess = type === 'success';
-                const bgColor = dark ?
-                    (isSuccess ? '#064e3b' : '#7f1d1d') :
-                    (isSuccess ? '#ecfdf5' : '#fef2f2');
-                const textColor = dark ?
-                    (isSuccess ? '#bbf7d0' : '#fecaca') :
-                    (isSuccess ? '#166534' : '#991b1b');
-                const iconColor = dark ?
-                    (isSuccess ? '#4ade80' : '#f87171') :
-                    (isSuccess ? '#16a34a' : '#dc2626');
-                const iconHtml = isSuccess ?
-                    `<i class="fa-regular fa-circle-check fa-beat-fade mr-2" style="color:${iconColor}"></i>` :
-                    `<i class="fa-regular fa-circle-xmark fa-beat-fade mr-2" style="color:${iconColor}"></i>`;
+                const isInfo = type === 'info';
+                const isDanger = type === 'danger';
+
+                let bgColor, textColor, iconColor, iconHtml;
+
+                if (isInfo) {
+                    bgColor = dark ? '#1e3a5f' : '#eff6ff';
+                    textColor = dark ? '#93c5fd' : '#1e40af';
+                    iconColor = dark ? '#60a5fa' : '#3b82f6';
+                    iconHtml = `<i class="fa-regular fa-circle-info fa-beat-fade mr-2" style="color:${iconColor}"></i>`;
+                } else {
+                    bgColor = dark ?
+                        (isSuccess ? '#064e3b' : '#7f1d1d') :
+                        (isSuccess ? '#ecfdf5' : '#fef2f2');
+                    textColor = dark ?
+                        (isSuccess ? '#bbf7d0' : '#fecaca') :
+                        (isSuccess ? '#166534' : '#991b1b');
+                    iconColor = dark ?
+                        (isSuccess ? '#4ade80' : '#f87171') :
+                        (isSuccess ? '#16a34a' : '#dc2626');
+                    iconHtml = isSuccess ?
+                        `<i class="fa-regular fa-circle-check fa-beat-fade mr-2" style="color:${iconColor}"></i>` :
+                        `<i class="fa-regular fa-circle-xmark fa-beat-fade mr-2" style="color:${iconColor}"></i>`;
+                }
 
                 Swal.fire({
                     toast: true,

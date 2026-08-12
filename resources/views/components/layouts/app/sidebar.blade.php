@@ -22,6 +22,11 @@
                                 <x-layouts.sidebar-link href="{{ route('gallery.index') }}" icon='fas-images' :active="request()->routeIs('gallery*')">Gallery</x-layouts.sidebar-link>
                             @endcan
 
+                            {{-- Slider --}}
+                            @can('view slider')
+                                <x-layouts.sidebar-link href="{{ route('slider.index') }}" icon='fas-sliders' :active="request()->routeIs('slider*')">Slider</x-layouts.sidebar-link>
+                            @endcan
+
                             {{-- Videos --}}
                             @can('view videos')
                                 <x-layouts.sidebar-link href="{{ route('videos.index') }}" icon='fas-video' :active="request()->routeIs('videos*')">Videos</x-layouts.sidebar-link>
