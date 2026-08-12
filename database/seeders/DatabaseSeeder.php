@@ -31,8 +31,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             PermissionSeeder::class,
-            ReviewSeeder::class,
-            AlbumSeeder::class,
+            // ReviewSeeder::class,
+            // AlbumSeeder::class,
         ]);
     }
 }
