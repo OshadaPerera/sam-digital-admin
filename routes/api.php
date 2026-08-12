@@ -31,26 +31,3 @@ Route::withoutMiddleware(['auth:sanctum'])->group(function () {
         'index'
     ])->name('api.business-profile');
 });
-
-
-// Local-only maintenance routes
-if (app()->environment('local')) {
-
-    Route::get('clear-cache', function () {
-        Artisan::call('optimize:clear');
-
-        return response()->json([
-            'success' => true,
-            'message' => 'All caches cleared successfully.',
-        ]);
-    });
-
-    Route::get('storage-link', function () {
-        Artisan::call('storage:link');
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Storage link created successfully.',
-        ]);
-    });
-}
