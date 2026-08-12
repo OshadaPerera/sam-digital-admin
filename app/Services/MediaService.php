@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
 
-class ImageService
+class MediaService
 {
     /**
      * Process and save an image: convert to WebP and compress
@@ -22,11 +22,16 @@ class ImageService
     public function processAndSave(
         UploadedFile $file,
         string $directory,
-        int $quality = 80,
+        int $quality = 70,
         ?int $maxWidth = null,
         ?int $maxHeight = null
     ): string {
         try {
+            // Ensure directory exists
+            if (!Storage::disk('public')->exists($directory)) {
+                Storage::disk('public')->makeDirectory($directory, 0755, true);
+            }
+
             // Generate a unique filename
             $filename = uniqid() . '_' . time() . '.webp';
             $path = $directory . '/' . $filename;
@@ -56,7 +61,7 @@ class ImageService
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            throw $e;
+            throw new \Exception('Failed to process image: ' . $e->getMessage(), 0, $e);
         }
     }
 
@@ -72,7 +77,7 @@ class ImageService
         return $this->processAndSave(
             file: $file,
             directory: $directory,
-            quality: config('image.cover_image.quality', 85),
+            quality: config('image.cover_image.quality', 75),
             maxWidth: config('image.cover_image.max_width', 1200),
             maxHeight: config('image.cover_image.max_height', 800)
         );
@@ -90,14 +95,14 @@ class ImageService
         return $this->processAndSave(
             file: $file,
             directory: $directory,
-            quality: config('image.album_image.quality', 80),
+            quality: config('image.album_image.quality', 70),
             maxWidth: config('image.album_image.max_width', 1920),
             maxHeight: config('image.album_image.max_height', 1080)
         );
     }
 
     /**
-     * Delete an image from storage
+     * Delete a media file from storage (image or video)
      *
      * @param string $path
      * @return bool
@@ -110,10 +115,10 @@ class ImageService
                 return $result;
             }
 
-            Log::warning('Attempted to delete non-existent image', ['path' => $path]);
+            Log::warning('Attempted to delete non-existent media file', ['path' => $path]);
             return false;
         } catch (\Exception $e) {
-            Log::error('Failed to delete image', [
+            Log::error('Failed to delete media file', [
                 'path' => $path,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
@@ -138,9 +143,14 @@ class ImageService
         int $height = null
     ): string {
         try {
+            // Ensure directory exists
+            if (!Storage::disk('public')->exists($directory)) {
+                Storage::disk('public')->makeDirectory($directory, 0755, true);
+            }
+
             $width = $width ?? config('image.thumbnail.width', 300);
             $height = $height ?? config('image.thumbnail.height', 300);
-            $quality = config('image.thumbnail.quality', 75);
+            $quality = config('image.thumbnail.quality', 70);
 
             $filename = 'thumb_' . uniqid() . '_' . time() . '.webp';
             $path = $directory . '/' . $filename;
@@ -160,7 +170,54 @@ class ImageService
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            throw $e;
+            throw new \Exception('Failed to create thumbnail: ' . $e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * Process and save a video file
+     *
+     * @param UploadedFile $file
+     * @param string $directory Directory path within the public disk
+     * @return string Path to the saved video
+     */
+    public function processVideoFile(UploadedFile $file, string $directory = 'videos'): string
+    {
+        try {
+            // Ensure directory exists
+            if (!Storage::disk('public')->exists($directory)) {
+                Storage::disk('public')->makeDirectory($directory, 0755, true);
+            }
+
+            // Validate video file
+            $allowedMimes = ['video/mp4', 'video/webm', 'video/ogg'];
+            if (!in_array($file->getMimeType(), $allowedMimes)) {
+                throw new \Exception('Invalid video file type. Allowed types: mp4, webm, ogg');
+            }
+
+            // Validate file size (max 25MB)
+            $maxSize = 25 * 1024 * 1024; // 25MB
+            if ($file->getSize() > $maxSize) {
+                throw new \Exception('Video file size exceeds 25MB limit');
+            }
+
+            // Generate a unique filename preserving original extension
+            $extension = $file->getClientOriginalExtension();
+            $filename = uniqid() . '_' . time() . '.' . $extension;
+            $path = $directory . '/' . $filename;
+
+            // Store the video file
+            Storage::disk('public')->putFileAs($directory, $file, $filename);
+
+            return $path;
+        } catch (\Exception $e) {
+            Log::error('Failed to process and save video', [
+                'filename' => $file->getClientOriginalName(),
+                'directory' => $directory,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw new \Exception('Failed to process video: ' . $e->getMessage(), 0, $e);
         }
     }
 }

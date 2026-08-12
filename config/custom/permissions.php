@@ -9,6 +9,14 @@ return [
         'activate gallery',
         'deactivate gallery',
     ],
+    'Slider' => [
+        'view slider',
+        'create slider',
+        'edit slider',
+        'delete slider',
+        'activate slider',
+        'deactivate slider',
+    ],
     'Videos' => [
         'view videos',
         'create videos',

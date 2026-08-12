@@ -12,10 +12,13 @@ return [
         'http://admin.samdigitalphotography.com',
         'http://localhost:5174',
         'http://127.0.0.1:5174',
+        'http://sam-digital-admin.test',
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
     ],
 
     'allowed_origins_patterns' => [
-        '/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/',
+        '/^https?:\/\/(localhost|127\.0\.0\.1|sam-digital-admin\.test)(:\d+)?$/',
     ],
 
     'allowed_headers' => ['*'],

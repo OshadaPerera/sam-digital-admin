@@ -8,6 +8,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Settings\AppearanceController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\WhatWeDoController;
@@ -128,6 +129,20 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/{gallery}/deactivate', 'deactivate')->name('deactivate')->middleware('can:deactivate gallery');
         Route::post('/{gallery}/images', 'addImages')->name('add-images')->middleware('can:add gallery images');
         Route::delete('/{gallery}/images/{image}', 'deleteImage')->name('delete-image')->middleware('can:delete gallery images');
+    });
+
+    // Slider Management Routes
+    Route::prefix('slider')->name('slider.')->controller(SliderController::class)->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('can:view slider');
+        Route::get('/create', 'create')->name('create')->middleware('can:create slider');
+        Route::post('/', 'store')->name('store')->middleware('can:create slider');
+        Route::get('/{slider}', 'show')->name('show')->middleware('can:view slider');
+        Route::get('/{slider}/edit', 'edit')->name('edit')->middleware('can:edit slider');
+        Route::put('/{slider}', 'update')->name('update')->middleware('can:edit slider');
+        Route::delete('/{slider}', 'destroy')->name('destroy')->middleware('can:delete slider');
+        Route::patch('/{slider}/activate', 'activate')->name('activate')->middleware('can:activate slider');
+        Route::patch('/{slider}/deactivate', 'deactivate')->name('deactivate')->middleware('can:deactivate slider');
+        Route::post('/reorder', 'reorder')->name('reorder')->middleware('can:edit slider');
     });
 
     // Video Management Routes

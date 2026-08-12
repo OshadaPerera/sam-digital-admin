@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Log;
 
 class AlbumService
 {
-    protected $imageService;
+    protected $mediaService;
 
-    public function __construct(ImageService $imageService)
+    public function __construct(MediaService $mediaService)
     {
-        $this->imageService = $imageService;
+        $this->mediaService = $mediaService;
     }
 
     /**
@@ -49,7 +49,7 @@ class AlbumService
 
             // Handle cover image upload with WebP conversion and compression
             if ($coverImage) {
-                $data['cover_image'] = $this->imageService->processCoverImage($coverImage);
+                $data['cover_image'] = $this->mediaService->processCoverImage($coverImage);
             }
 
             $data['type'] = $type;
@@ -68,7 +68,7 @@ class AlbumService
             ]);
             // Delete uploaded cover image if album creation fails
             if (isset($data['cover_image'])) {
-                $this->imageService->delete($data['cover_image']);
+                $this->mediaService->delete($data['cover_image']);
             }
             throw $e;
         }
@@ -86,14 +86,14 @@ class AlbumService
 
             // Handle cover image upload with WebP conversion and compression
             if ($coverImage) {
-                $data['cover_image'] = $this->imageService->processCoverImage($coverImage);
+                $data['cover_image'] = $this->mediaService->processCoverImage($coverImage);
             }
 
             $album->update($data);
 
             // Delete old cover image if a new one was uploaded
             if ($coverImage && $oldCoverImage) {
-                $this->imageService->delete($oldCoverImage);
+                $this->mediaService->delete($oldCoverImage);
             }
 
             DB::commit();
@@ -109,7 +109,7 @@ class AlbumService
             ]);
             // Delete uploaded cover image if update fails
             if (isset($data['cover_image']) && $data['cover_image'] !== $oldCoverImage) {
-                $this->imageService->delete($data['cover_image']);
+                $this->mediaService->delete($data['cover_image']);
             }
             throw $e;
         }
@@ -125,12 +125,12 @@ class AlbumService
 
             // Delete cover image
             if ($album->cover_image) {
-                $this->imageService->delete($album->cover_image);
+                $this->mediaService->delete($album->cover_image);
             }
 
             // Delete all album images
             foreach ($album->images as $image) {
-                $this->imageService->delete($image->image_path);
+                $this->mediaService->delete($image->image_path);
             }
 
             $album->delete();
@@ -162,7 +162,7 @@ class AlbumService
             foreach ($images as $index => $image) {
                 if ($image instanceof UploadedFile) {
                     // Process image: convert to WebP and compress
-                    $path = $this->imageService->processAlbumImage($image);
+                    $path = $this->mediaService->processAlbumImage($image);
                     $uploadedImages[] = [
                         'album_id' => $album->id,
                         'image_path' => $path,
@@ -187,7 +187,7 @@ class AlbumService
             ]);
             // Delete uploaded images if insertion fails
             foreach ($uploadedImages as $image) {
-                $this->imageService->delete($image['image_path']);
+                $this->mediaService->delete($image['image_path']);
             }
             throw $e;
         }
@@ -201,7 +201,7 @@ class AlbumService
         DB::beginTransaction();
         try {
 
-            $this->imageService->delete($image->image_path);
+            $this->mediaService->delete($image->image_path);
             $image->delete();
 
             DB::commit();

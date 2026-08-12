@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
 class Album extends Model
 {
@@ -19,6 +20,11 @@ class Album extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+    ];
+
+    protected $appends = [
+        'formatted_date',
+        'images_count',
     ];
 
     /**
@@ -43,5 +49,21 @@ class Album extends Model
     public function scopeActive($query)
     {
         return $query->where('status', 'active');
+    }
+
+    /**
+     * Get formatted date attribute
+     */
+    public function getFormattedDateAttribute(): string
+    {
+        return $this->created_at ? $this->created_at->format('F j, Y') : '';
+    }
+
+    /**
+     * Get images count attribute
+     */
+    public function getImagesCountAttribute(): int
+    {
+        return $this->images()->count();
     }
 }
